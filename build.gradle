@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'  // ВАЖНО: добавляем плагин JaCoCo
 }
 
 repositories {
@@ -17,12 +18,35 @@ version = '1.0-SNAPSHOT'
 description = 'Games'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
+// JaCoCo конфигурация
+jacoco {
+    toolVersion = "0.8.9"
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true    // Для Jenkins
+        html.required = true   // Для локального просмотра
+    }
+    
+    // Исключаем тестовые классы
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                '**/*Test*',
+                '**/test/**'
+            ])
+        }))
+    }
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport  // После тестов запускаем JaCoCo отчет
 }
 
 tasks.withType(Test) {
