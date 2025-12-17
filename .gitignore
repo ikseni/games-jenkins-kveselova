@@ -1,0 +1,25 @@
+# Временные файлы (с префиксом ~)
+~*
+*~
+
+# Служебные файлы Gradle
+.gradle/
+gradle-app.setting
+
+# Файлы сборки
+build/
+out/
+bin/
+
+# IDE файлы
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Логи
+*.log
